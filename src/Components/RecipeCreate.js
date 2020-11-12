@@ -25,6 +25,7 @@ const RecipeCreate = (props) => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': props.sessionToken
             },
             body: JSON.stringify(body)
         }).then(r => r.json())
