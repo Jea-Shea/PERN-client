@@ -17,18 +17,18 @@ const Recipes = (props) => {
 
 
     const fetchRecipes = () => {
-        fetch('http://localhost:8080/recipe/', {
+        fetch('http://localhost:8080/recipes/', {
             method: 'GET',
             }).then(r => r.json())
             .then(rArr => setRecipes(rArr))
-            .then(console.log((json)))
+        
         };
 
     return(
         <div>
             <RecipeCreate  fetchRecipes={fetchRecipes} />
             <hr />
-           <RecipeList recipes={recipes} /> 
+        
         </div>
     )
 };
@@ -37,3 +37,5 @@ const Recipes = (props) => {
 export default Recipes;
 
 //props will go in the return here. Be more specific with syntax
+
+//<RecipeList recipes={recipes} /> 

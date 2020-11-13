@@ -21,7 +21,7 @@ const RecipeCreate = (props) => {
             ingredients: ingredients,
             instructions: instructions,
         }
-        fetch('http://localhost:8080/recipe/create', {
+        fetch('http://localhost:8080/recipes/create', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
