@@ -80,7 +80,7 @@ export default function NavTabs() {
           variant="fullWidth"
           value={value}
           onChange={handleChange}
-          aria-label="nav tabs example"
+          aria-label="recip-Cart"
         >
           <LinkTab label="Recipes" href="/recipes" {...a11yProps(0)} />
           <LinkTab label="Shopping List" href="/list" {...a11yProps(1)} />
