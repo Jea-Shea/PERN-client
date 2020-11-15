@@ -32,9 +32,8 @@ useEffect(
   return (
     <div className="App">
       <Signup />
-      <Recipes />
+      <Recipes sessionToken={sessionToken} />
 
-      {  !sessionToken ? <Signup updateToken={updateToken} /> : <Recipes sessionToken={sessionToken} /> }
 
       
     </div>

@@ -7,7 +7,7 @@ import RecipeList from './RecipeList';
 
 const Recipes = (props) => {
 
-    const [recipes, setRecipes] = useState([]);
+    const [recipes, setRecipes] = useState({ name: '', ingredients: '', instructions: '' });
 
     useEffect(
         () => {
@@ -19,8 +19,15 @@ const Recipes = (props) => {
     const fetchRecipes = () => {
         fetch('http://localhost:8080/recipes/', {
             method: 'GET',
+            headers: new Headers({
+            'Content-Type': 'application/json',
+            'Authorization': props.sessionToken
+            }),
             }).then(r => r.json())
-            .then(rArr => setRecipes(rArr))
+            .then(rArr =>  {
+                console.log(rArr)
+                setRecipes(rArr)})
+            .then(console.log('please work'));
         
         };
 
@@ -28,6 +35,8 @@ const Recipes = (props) => {
         <div>
             <RecipeCreate  fetchRecipes={fetchRecipes} />
             <hr />
+            <RecipeList recipes={recipes} />
+            <h1>Printing Recipes?</h1>
         
         </div>
     )

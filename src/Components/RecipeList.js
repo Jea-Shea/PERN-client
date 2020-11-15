@@ -5,9 +5,16 @@ console.log('hi');
 const RecipeList = (props) => {
 
 
+ const allRecipes = () => {
+ if (props.recipes) {
+                 return props.recipes.map((recipeObj, i) => <p key={i}>  {recipeObj.name} </p>
+                 )};
+                 
+ }
+
     return (
         <div>
-             {props.recipe.map((recipeObj, i) => <RecipeItem recipe={recipeObj} key={i} />)}
+            {allRecipes()}
         </div>
     )
 };
