@@ -5,18 +5,13 @@ console.log('hi');
 const RecipeList = (props) => {
 
 
- const allRecipes = () => {
- if (props.recipes) {
-                 return props.recipes.map((recipeObj, i) => <p key={i}>  {recipeObj.name} </p>
-                 )};
-                 
- }
-
     return (
         <div>
-            {allRecipes()}
+            {props.recipes.map((recipeObj, i) => <p key={i}>  {recipeObj.name} </p>)}
         </div>
     )
 };
 
 export default RecipeList;
+
+/// ADD CATCH SO IF RECIPES IS EMPTY THERES A MESSAGE
