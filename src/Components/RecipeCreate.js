@@ -2,25 +2,27 @@ import React, { useState } from 'react';
 
 const RecipeCreate = (props) => {
 
-    const [nameOfRecipe, setNameOfRecipe] = useState('')
+    const [name, setName] = useState('')
     const [ingredients, setIngredients] = useState('')
     const [instructions, setInstructions] = useState('')
 
     const resetForm = () => {
-        setNameOfRecipe('')
+        setName('')
         setIngredients('')
         setInstructions('')
     };
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        
-
+        console.log('youve clicked submit');
+        console.log(props.recipes);
         const body = {
-            name: nameOfRecipe,
+            recipes: {
+            name: name,
             ingredients: ingredients,
             instructions: instructions,
         }
+    }
         fetch('http://localhost:8080/recipes/create', {
             method: 'POST',
             headers: {
@@ -32,8 +34,7 @@ const RecipeCreate = (props) => {
             .then(rObj => {
                 console.log(rObj);
                 resetForm()
-                props.fetchRecipes() // do we need this <-
-           } )
+           } ) 
     }
 
 
@@ -41,7 +42,7 @@ const RecipeCreate = (props) => {
         <div>
             <form>
                 <label htmlFor="nameOfRecipe">Name</label>
-                <input id="nameOfRecipe" value={nameOfRecipe} onChange={e => setNameOfRecipe(e.target.value)}/>
+                <input id="nameOfRecipe" value={name} onChange={e => setName(e.target.value)}/>
                 <br />
                 <label htmlFor="ingredients">Ingredients</label>
                 <input id="ingredients" value={ingredients} onChange={e => setIngredients(e.target.value)} />
@@ -57,3 +58,7 @@ const RecipeCreate = (props) => {
 };
 
 export default RecipeCreate;
+
+
+/*
+*/
