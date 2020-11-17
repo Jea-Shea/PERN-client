@@ -4,10 +4,18 @@ import RecipeItem from './RecipeItem'
 console.log('hi');
 const RecipeList = (props) => {
 
+console.log(props.recipes);
+
+  const showRecipes = () => {
+    if (props.recipes.length !=0) {
+      return props.recipes.map((recipeObj, i) => <p key={i}>  {recipeObj.name} </p>)
+    }
+  }
+
 
     return (
         <div>
-            {props.recipes.map((recipeObj, i) => <p key={i}>  {recipeObj.name} </p>)}
+          {showRecipes()}
         </div>
     )
 };
