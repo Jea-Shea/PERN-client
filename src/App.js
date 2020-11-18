@@ -44,7 +44,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <div className="App">
         <AppBar />
-        <NavTabs />
+        <NavTabs sessionToken={sessionToken} updateToken={updateToken} />
       </div>
     </ThemeProvider>
   ) : (

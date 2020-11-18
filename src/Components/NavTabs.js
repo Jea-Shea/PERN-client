@@ -1,16 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import Fab from '@material-ui/core/Fab';
-import FloatingActionButtons from './FloatingActionButtons';
-import ShoppingList from './ShoppingCart';
-import Recipe from './Recipe';
-import RecipeList from './RecipeList';
+import React from "react";
+import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
+import Fab from "@material-ui/core/Fab";
+import FloatingActionButtons from "./FloatingActionButtons";
+import ShoppingList from "./ShoppingCart";
+import Recipe from "./Recipe";
+import RecipeList from "./RecipeList";
+import Account from "./Account";
 
 //Nav Tabs functionality
 function TabPanel(props) {
@@ -42,7 +43,7 @@ TabPanel.propTypes = {
 function a11yProps(index) {
   return {
     id: `nav-tab-${index}`,
-    'aria-controls': `nav-tabpanel-${index}`,
+    "aria-controls": `nav-tabpanel-${index}`,
   };
 }
 
@@ -65,7 +66,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NavTabs() {
+export default function NavTabs(props) {
+  const { sessionToken, updateToken } = props;
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -88,14 +90,15 @@ export default function NavTabs() {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <Recipe/>
-        <FloatingActionButtons/>
-        <RecipeList/>
+        <Recipe />
+        <FloatingActionButtons />
+        <RecipeList />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <ShoppingList/>
+        <ShoppingList sessionToken={sessionToken} />
       </TabPanel>
       <TabPanel value={value} index={2}>
+        <Account sessionToken={sessionToken} updateToken={updateToken} />
       </TabPanel>
     </div>
   );

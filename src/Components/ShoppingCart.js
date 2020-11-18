@@ -14,9 +14,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function GroceryList() {
+export default function ShoppingList(props) {
   const classes = useStyles();
-  const [groceries, setGroceries] = useState(["carrots", "celery", "onion"]);
+  const { sessionToken } = props;
+  const [groceries, setGroceries] = useState([""]);
+
+  useEffect(() => {
+    fetch("http://localhost:8080/user/groceries", {
+      method: "GET",
+      headers: new Headers({
+        "Content-Type": "application/json",
+        Authorization: sessionToken,
+      }),
+    })
+      .then((res) => res.json())
+      .then((json) => setGroceries(json))
+      .catch((err) => console.log(err));
+  }, []);
 
   const addGrocery = () => {
     setGroceries([...groceries, ""]);
@@ -34,6 +48,17 @@ export default function GroceryList() {
 
   const saveGroceries = () => {
     console.log(groceries);
+    let user = { groceries: groceries };
+    fetch("http://localhost:8080/user/groceries/update", {
+      method: "PUT",
+      body: JSON.stringify({ user }),
+      headers: new Headers({
+        "Content-Type": "application/json",
+        Authorization: sessionToken,
+      }),
+    })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   };
 
   const handleInputChange = (index, event) => {
@@ -60,7 +85,7 @@ export default function GroceryList() {
             aria-label="delete"
             onClick={(event) => deleteGrocery(i, event)}
           >
-            <DeleteIcon />
+            <DeleteIcon color="secondary" />
           </IconButton>
         </div>
       );
@@ -83,10 +108,10 @@ export default function GroceryList() {
         {handleGroceries()}
       </form>
       <IconButton aria-label="add" onClick={addGrocery}>
-        <AddIcon />
+        <AddIcon color="primary" style={{ fontSize: 40 }} />
       </IconButton>
       <IconButton aria-label="save" onClick={saveGroceries}>
-        <SaveIcon />
+        <SaveIcon color="primary" style={{ fontSize: 40 }}/>
       </IconButton>
     </>
   );

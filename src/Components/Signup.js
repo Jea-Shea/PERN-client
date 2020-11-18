@@ -18,7 +18,7 @@ const Login = (props) => {
 
   let handleSubmit = (event) => {
     event.preventDefault();
-    fetch("http://localhost:5000/user/signup", {
+    fetch("http://localhost:8080/user/signup", {
       method: "POST",
       body: JSON.stringify({
         user: { name: name, email: email, passwordHash: password },
@@ -58,7 +58,7 @@ const Login = (props) => {
         </div>
         <div>
           <IconButton type="submit">
-            <PersonAddIcon />
+            <PersonAddIcon color="primary" style={{ fontSize: 40 }} />
           </IconButton>
         </div>
       </form>
