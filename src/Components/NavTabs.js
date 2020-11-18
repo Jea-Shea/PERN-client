@@ -88,17 +88,14 @@ export default function NavTabs() {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        Recipes
         <Recipe/>
         <FloatingActionButtons/>
         <RecipeList/>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Shopping List
         <ShoppingList/>
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Account
       </TabPanel>
     </div>
   );
