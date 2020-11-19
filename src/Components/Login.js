@@ -14,6 +14,14 @@ const useStyles = makeStyles((theme) => ({
 const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordValid, setPasswordValid] = useState(false);
+  const [emailValid, setEmailValid] = useState(false);
+  useEffect(() => {
+    setPasswordValid(true);
+  }, [password]);
+  useEffect(() => {
+    setEmailValid(/.*@\..*/.test(email));
+  }, [email]);
   let handleSubmit = (event) => {
     event.preventDefault();
     fetch("http://localhost:8080/user/login", {
@@ -34,6 +42,7 @@ const Login = (props) => {
       <form onSubmit={handleSubmit}>
         <div>
           <TextField
+            error={emailValid}
             id="email"
             label="Email"
             onChange={(e) => setEmail(e.target.value)}

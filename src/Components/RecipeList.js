@@ -16,7 +16,7 @@ const columns = [
 
 const rows = [
   { id: 1, category: 'Main Dish', recipeName: 'Tacos', ingredients: 35 },
-  { id: 2, category: 'Dessert', recipeName: 'Pancakes', ingredients: 42 },
+  { id: 2, category: ["Asian" , "Mexican"].join(', '), recipeName: 'Pancakes', ingredients: 42 },
   { id: 3, category: 'Main Dish', recipeName: 'Pad Thai', ingredients: 45 },
   { id: 4, category: 'Main Dish', recipeName: 'Amazing Tuna Roll', ingredients: 16 },
   { id: 5, category: 'Main Dish', recipeName: 'Spicy Pineapple Pizza', ingredients: null },
@@ -29,7 +29,7 @@ const rows = [
 export default function DataGridDemo() {
   return (
     <div style={{ height: 400, width: '100%' }}>
-      <DataGrid rows={rows} columns={columns} pageSize={5}  />
+      <DataGrid rows={rows} columns={columns} pageSize={5} onRowSelected={(param) => console.log(param)}  />
     </div>
   );
 }
