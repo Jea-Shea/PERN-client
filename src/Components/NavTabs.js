@@ -90,9 +90,8 @@ export default function NavTabs(props) {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <Recipe />
+        <Recipe sessionToken={sessionToken} />
         <FloatingActionButtons />
-        <RecipeList />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <ShoppingList sessionToken={sessionToken} />

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Accordion from '@material-ui/core/Accordion';
@@ -10,6 +10,9 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
+
+import RecipeCreate from './RecipeCreate';
+import RecipeList from './RecipeList';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,49 +49,85 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DetailedAccordion() {
+
+
+
+export default function Recipes (props) {
   const classes = useStyles();
+
+  console.log(props.sessionToken);
+
+  const [name, setName] = useState('')
+  const [ingredients, setIngredients] = useState('')
+  const [instructions, setInstructions] = useState('')
+
+  const resetForm = () => {
+      setName('')
+      setIngredients('')
+      setInstructions('')
+  };
+
+  
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    console.log('youve clicked submit');
+    const body = {
+        recipes: {
+        name: name,
+        ingredients: ingredients,
+        instructions: instructions,
+    }
+};
+
+fetch('http://localhost:8080/recipes/create', {
+  method: 'POST',
+  headers: {
+      'Content-Type': 'application/json',
+      'Authorization': props.sessionToken
+  },
+  body: JSON.stringify(body)
+}).then(r => r.json())
+  .then(rObj => {
+      console.log(rObj);
+      resetForm()
+ } ) 
+}
 
   return (
     <div className={classes.root}>
-      <Accordion defaultExpanded>
+      <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1c-content"
           id="panel1c-header"
         >
-          <div className={classes.column}>
-            <Typography className={classes.heading}>Recipe: Tacos</Typography>
-          </div>
-          <div className={classes.column}>
-            <Typography className={classes.secondaryHeading}>Main Dish</Typography>
-          </div>
+          <h1>Add a Recipe</h1>
         </AccordionSummary>
-        <AccordionDetails className={classes.details}>
-          <div className={classes.column} />
-          <div className={classes.column}>
-            <Chip label="Main dish" onDelete={() => {}} />
-            <Chip label="Favorite" onDelete={() => {}} />
+        <AccordionDetails className={classes.details}> 
+                 <div className={classes.column}>
+            <Typography className={classes.heading}> Recipe Title </Typography>
+            <input value={name} onChange={e => setName(e.target.value)} />
           </div>
-          <div className={clsx(classes.column, classes.helper)}>
-            <Typography variant="caption">
-              Some informations
-              <br />
-              <a href="#secondary-heading-and-columns" className={classes.link}>
-                Learn more
-              </a>
-            </Typography>
+          <div className={classes.column}>
+            <Typography className={classes.heading}> Ingredients </Typography>
+            <input value={ingredients} onChange={e => setIngredients(e.target.value)} />
+          </div>
+          <div className={classes.column}>
+            <Typography className={classes.heading}> Instructions </Typography>
+            <input value={instructions} onChange={e => setInstructions(e.target.value)} />
           </div>
         </AccordionDetails>
         <Divider />
         <AccordionActions>
-          <Button size="small">Cancel</Button>
+          <Button size="small" onClick={resetForm}>Cancel</Button>
           <Button size="small">Add to Shopping List</Button>
-          <Button size="small" color="primary">
-            Save
-          </Button>
+          <Button size="small" color="primary" onClick={handleSubmit} > Save </Button>
         </AccordionActions>
-      </Accordion>
+      </Accordion>    
+      
+        <RecipeList sessionToken={props.sessionToken} />
+
     </div>
   );
 }
+
