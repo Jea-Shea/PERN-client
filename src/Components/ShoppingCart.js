@@ -32,7 +32,9 @@ export default function ShoppingList(props) {
     })
       .then((res) => res.json())
       .then((json) => setGroceries(json))
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   const handleFocus = (i) => {
@@ -62,7 +64,7 @@ export default function ShoppingList(props) {
       console.log(grocerySet);
       handleFocus(grocerySet.length < 1 ? 0 : grocerySet.length - 1);
       setGroceries(grocerySet);
-      return(grocerySet);
+      return grocerySet;
     }
   };
 
@@ -115,6 +117,7 @@ export default function ShoppingList(props) {
   };
 
   const handleGroceries = () => {
+    if (groceries) {
     return groceries.map((grocery, i) => {
       return (
         <div className="groceryItem">
@@ -140,6 +143,9 @@ export default function ShoppingList(props) {
         </div>
       );
     });
+    } else {
+      setGroceries([""]);
+    }
   };
 
   const handleSubmit = (e) => {
@@ -164,8 +170,8 @@ export default function ShoppingList(props) {
         color="primary"
         onClick={addGrocery}
       >
-        Add
         <AddIcon />
+        Add
       </Fab>
       <Fab
         className={classes.root}
@@ -176,8 +182,8 @@ export default function ShoppingList(props) {
           saveGroceries(removeEmptyAndDup());
         }}
       >
-        Save
         <SaveIcon />
+        Save
       </Fab>
       <Fab
         className={classes.root}
@@ -189,8 +195,8 @@ export default function ShoppingList(props) {
           handleFocus(0);
         }}
       >
-        Clear
         <ClearIcon />
+        Clear
       </Fab>
     </>
   );
