@@ -8,19 +8,19 @@ import AccordionActions from '@material-ui/core/AccordionActions';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import AddIcon from '@material-ui/icons/Add';
+import InputInstructions from './InputInstructions';
+import RecipeNameField from './RecipeNameField';
 import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
-import InputInstructions from './InputInstructions';
-import RecipeNameField from './RecipeNameField';
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
   },
   heading: {
-    fontSize: theme.typography.pxToRem(15),
+    fontSize: theme.typography.pxToRem(20),
+    textTransform: "uppercase",
   },
   secondaryHeading: {
     fontSize: theme.typography.pxToRem(15),
@@ -55,41 +55,27 @@ export default function DetailedAccordion() {
 
   return (
     <div className={classes.root}>
-      <Accordion>
+      <Accordion defaultExpanded>
         <AccordionSummary
           expandIcon={<AddIcon />}
           aria-controls="panel1c-content"
           id="panel1c-header"
         >
-          <div className={classes.column}>
-            <Typography className={classes.heading}>Add New Recipe</Typography>
+          <div className={classes.root}>
+            <Typography className={classes.heading}>Add a Recipe</Typography>
           </div>
-          <div className={classes.column}>
-            <Typography className={classes.secondaryHeading}>-</Typography>
-          </div>
+
         </AccordionSummary>
         <AccordionDetails className={classes.details}>
-          <div className={classes.column} />
-          <div className={classes.column}>
-            <Chip label="Main dish" onDelete={() => {}} />
-            <Chip label="Favorite" onDelete={() => {}} />
-          </div>
-          <div className={clsx(classes.column, classes.helper)}>
-            <Typography variant="caption">
-              Some informations
-              <br />
-              <InputInstructions/>
-
-              <a href="#secondary-heading-and-columns" className={classes.link}>
-                Learn more
-              </a>
+        <div className={classes.root}>
+            <Typography>
+                <InputInstructions/>
             </Typography>
           </div>
         </AccordionDetails>
         <Divider />
         <AccordionActions>
           <Button size="small">Cancel</Button>
-          <Button size="small">Add to Shopping List</Button>
           <Button size="small" color="primary">
             Save
           </Button>

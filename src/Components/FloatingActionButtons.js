@@ -17,22 +17,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FloatingActionButtons() {
+export default function FloatingActionButtons(props) {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <Fab color="primary" aria-label="add" variant="extended">
+      <Fab color="primary" disabled aria-label="add" variant="extended">
         <AddIcon />
         Add Recipe
       </Fab>
-      <Fab color="secondary" aria-label="edit" variant="extended">
+      <Fab color="secondary" disabled aria-label="edit" variant="extended">
         <EditIcon />
         Edit Recipe
       </Fab>
-      <Fab variant="extended">
+      <Fab variant="extended" disabled>
         <AddShoppingCartIcon className={classes.extendedIcon} />
-        Add all items to shopping cart
+        Add all items to shopping list
       </Fab>
       <Fab disabled aria-label="like">
         <FavoriteIcon />

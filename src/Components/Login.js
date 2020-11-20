@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
-import PersonAddIcon from "@material-ui/icons/PersonAdd";
+import ForwardIcon from "@material-ui/icons/Forward";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -12,16 +12,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const Login = (props) => {
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [passwordValid, setPasswordValid] = useState(false);
+  const [emailValid, setEmailValid] = useState(false);
+  useEffect(() => {
+    setPasswordValid(true);
+  }, [password]);
+  useEffect(() => {
+    setEmailValid(/.*@\..*/.test(email));
+  }, [email]);
   let handleSubmit = (event) => {
     event.preventDefault();
-    fetch("http://localhost:8080/user/signup", {
+    fetch("http://localhost:8080/user/login", {
       method: "POST",
       body: JSON.stringify({
-        user: { name: name, email: email, passwordHash: password },
+        user: { email: email, passwordHash: password },
       }),
       headers: new Headers({
         "Content-Type": "application/json",
@@ -32,17 +38,11 @@ const Login = (props) => {
   };
   return (
     <div>
-      <h1>Signup</h1>
+      <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <TextField
-            id="name"
-            label="Name"
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
-        <div>
-          <TextField
+            error={emailValid}
             id="email"
             label="Email"
             onChange={(e) => setEmail(e.target.value)}
@@ -58,7 +58,7 @@ const Login = (props) => {
         </div>
         <div>
           <IconButton type="submit">
-            <PersonAddIcon color="primary" style={{ fontSize: 40 }} />
+            <ForwardIcon color="primary" style={{ fontSize: 40 }} />
           </IconButton>
         </div>
       </form>

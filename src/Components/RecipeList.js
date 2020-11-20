@@ -16,7 +16,7 @@ const columns = [
 
 const rows = [
   { id: 1, category: 'Main Dish', recipeName: 'Tacos', ingredients: 35 },
-  { id: 2, category: 'Dessert', recipeName: 'Pancakes', ingredients: 42 },
+  { id: 2, category: ["Asian" , "Mexican"].join(', '), recipeName: 'Pancakes', ingredients: 42 },
   { id: 3, category: 'Main Dish', recipeName: 'Pad Thai', ingredients: 45 },
   { id: 4, category: 'Main Dish', recipeName: 'Amazing Tuna Roll', ingredients: 16 },
   { id: 5, category: 'Main Dish', recipeName: 'Spicy Pineapple Pizza', ingredients: null },
@@ -26,10 +26,27 @@ const rows = [
   { id: 9, category: 'Side Dish', recipeName: 'French Fries', ingredients: 65 },
 ];
 
-export default function DataGridDemo() {
+export default function DataGridDemo(props) {
+  const [, setSelection] = React.useState([]);
+  const { sessionToken } = props;
+
+  const editRecipeButton = () => {
+    console.log("Edit button enabled function called");
+
+  }
+  
+
   return (
     <div style={{ height: 400, width: '100%' }}>
-      <DataGrid rows={rows} columns={columns} pageSize={5} checkboxSelection />
+      <DataGrid 
+      rows={rows} 
+      columns={columns} 
+      pageSize={5} 
+      onSelectionChange={(newSelection) => {
+        setSelection(newSelection.rowIds);
+        console.log(newSelection.rowIds);
+        editRecipeButton();
+      }}  />
     </div>
   );
 }
