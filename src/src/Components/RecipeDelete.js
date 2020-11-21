@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 const RecipeDelete = (props) => {
 
-    const [delete, setDelete] = useState('')
+const [clear, setClear] = useState('')
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -11,7 +11,7 @@ const RecipeDelete = (props) => {
         console.log(props.recipes);
 
     }
-        fetch('http://localhost:8080/recipes/:id', {
+        fetch('http://localhost:8080/recipes/delete/:id', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

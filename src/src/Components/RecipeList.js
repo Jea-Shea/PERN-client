@@ -1,25 +1,46 @@
-import React from 'react'
-import RecipeItem from './RecipeItem'
+import React, { useState, useEffect } from "react";
+import { XGrid } from "@material-ui/x-grid";
+import Recipes from "./Recipe";
 
-console.log('hi');
+//import RecipeItem from './RecipeItem'
+
 const RecipeList = (props) => {
+  const { sessionToken, selection, setSelection, recipes } = props;
+  const [buttonsEnable, setButtonsEnable] = useState(false);
 
-console.log(props.recipes);
+  useEffect(() => setSelection(null), []);
 
-  const showRecipes = () => {
-    if (props.recipes.length !=0) {
-      return props.recipes.map((recipeObj, i) => <p key={i}>  {recipeObj.name} </p>)
-    }
-  }
+  const columns = [
+    { field: "id", headerName: "ID", width: 130 },
+    { field: "name", headerName: "Recipe", width: 190 },
+    { field: "ingredients", headerName: "Ingredients", width: 350 },
+    { field: "instructions", headerName: "Instructions", width: 600 },
+    { field: "user", headerName: "User", width: 90 },
+  ];
 
+  const editRecipeButton = () => {
+    console.log("Edit");
+  };
 
-    return (
-        <div>
-          {showRecipes()}
-        </div>
-    )
+  return (
+    <div>
+      <div style={{ height: 400, width: "100%" }}>
+        <XGrid
+          rows={recipes || []}
+          columns={columns}
+          pageSize={5}
+          onSelectionChange={(newSelection) => {
+            console.log(newSelection.rowIds[0]);
+            if (selection !== newSelection.rowIds[0]) {
+              setSelection(newSelection.rowIds[0]);
+            }
+            setButtonsEnable(true);
+            editRecipeButton();
+          }}
+        />
+      </div>
+    </div>
+  );
 };
 
 export default RecipeList;
-
-/// ADD CATCH SO IF RECIPES IS EMPTY THERES A MESSAGE
