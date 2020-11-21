@@ -8,6 +8,9 @@ import NavTabs from "./Components/NavTabs";
 import AppBar from "./Components/AppBar";
 import Login from "./Components/Login";
 import Signup from "./Components/Signup";
+import Fab from "@material-ui/core/Fab";
+import PersonAddIcon from "@material-ui/icons/PersonAdd";
+import ForwardIcon from "@material-ui/icons/Forward";
 
 const theme = createMuiTheme({
   palette: {
@@ -30,6 +33,7 @@ const theme = createMuiTheme({
 
 function App() {
   const [sessionToken, setSessionToken] = useState("");
+  const [login, setLogin] = useState(true);
   useEffect(() => {
     if (localStorage.getItem("token")) {
       setSessionToken(localStorage.getItem("token"));
@@ -47,12 +51,42 @@ function App() {
         <NavTabs sessionToken={sessionToken} updateToken={updateToken} />
       </div>
     </ThemeProvider>
-  ) : (
+  ) : login ? (
     <ThemeProvider theme={theme}>
       <div className="App">
         <AppBar />
         <Login updateToken={updateToken} />
+      <Fab
+        style={{marginTop: 16}}
+        aria-label="clear"
+        variant="extended"
+        color="primary"
+        onClick={() => {
+          setLogin(!login);
+        }}
+      >
+        <PersonAddIcon />
+        Don't have an account? Sign up!
+      </Fab>
+      </div>
+    </ThemeProvider>
+  ) : (
+    <ThemeProvider theme={theme}>
+      <div className="App">
+        <AppBar />
         <Signup updateToken={updateToken} />
+      <Fab
+        style={{marginTop: 16}}
+        aria-label="clear"
+        variant="extended"
+        color="primary"
+        onClick={() => {
+          setLogin(!login);
+        }}
+      >
+        <ForwardIcon />
+        Already have an account? Log in!
+      </Fab>
       </div>
     </ThemeProvider>
   );

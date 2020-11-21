@@ -6,6 +6,8 @@ import IconButton from "@material-ui/core/IconButton";
 import AddIcon from "@material-ui/icons/Add";
 import ClearIcon from "@material-ui/icons/Clear";
 import SaveIcon from "@material-ui/icons/Save";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,6 +22,8 @@ export default function ShoppingList(props) {
   const classes = useStyles();
   const { sessionToken } = props;
   const [groceries, setGroceries] = useState([""]);
+  const [open, setOpen] = useState(false);
+  const [severity, setSeverity] = useState("");
   const inputRef = useRef({});
 
   useEffect(() => {
@@ -79,8 +83,18 @@ export default function ShoppingList(props) {
         Authorization: sessionToken,
       }),
     })
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+      .then((res) => {
+        console.log(res);
+        if (res.status === 200) {
+          setOpen(true);
+          setSeverity("success");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setOpen(true);
+        setSeverity("error");
+      });
   };
 
   const handleInputChange = (index, event) => {
@@ -118,31 +132,31 @@ export default function ShoppingList(props) {
 
   const handleGroceries = () => {
     if (groceries) {
-    return groceries.map((grocery, i) => {
-      return (
-        <div className="groceryItem">
-          <TextField
-            key={i}
-            id={i}
-            size="small"
-            margin="dense"
-            value={grocery}
-            onChange={(event) => {
-              handleInputChange(i, event);
-            }}
-            onKeyDown={(event) => handleKeyPress(i, event)}
-            inputRef={(input) => (inputRef.current[i] = input)}
-            autoFocus
-          />
-          <IconButton
-            aria-label="delete"
-            onClick={(event) => deleteGrocery(i, event)}
-          >
-            <ClearIcon color="secondary" />
-          </IconButton>
-        </div>
-      );
-    });
+      return groceries.map((grocery, i) => {
+        return (
+          <div className="groceryItem">
+            <TextField
+              key={i}
+              id={i}
+              size="small"
+              margin="dense"
+              value={grocery}
+              onChange={(event) => {
+                handleInputChange(i, event);
+              }}
+              onKeyDown={(event) => handleKeyPress(i, event)}
+              inputRef={(input) => (inputRef.current[i] = input)}
+              autoFocus
+            />
+            <IconButton
+              aria-label="delete"
+              onClick={(event) => deleteGrocery(i, event)}
+            >
+              <ClearIcon color="secondary" />
+            </IconButton>
+          </div>
+        );
+      });
     } else {
       setGroceries([""]);
     }
@@ -198,6 +212,15 @@ export default function ShoppingList(props) {
         <ClearIcon />
         Clear
       </Fab>
+      <Snackbar
+        open={open}
+        autoHideDuration={2000}
+        onClose={() => setOpen(false)}
+      >
+        <MuiAlert elevation={6} variant="filled" onClose={() => setOpen(false)} severity={severity}>
+          {severity === "success" ? "Saved!" : "Error while saving"}
+        </MuiAlert>
+      </Snackbar>
     </>
   );
 }
