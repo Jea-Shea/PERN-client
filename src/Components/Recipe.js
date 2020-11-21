@@ -58,6 +58,8 @@ export default function Recipes(props) {
   const [instructions, setInstructions] = useState("");
   const [user, setUser] = useState("");
   const [selection, setSelection] = useState("");
+  const [edits, setEdits] = useState(false);
+
   const resetForm = () => {
     setName("");
     setIngredients("");
@@ -104,29 +106,39 @@ export default function Recipes(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("youve clicked submit");
-    const body = {
-      recipes: {
-        name: name,
-        ingredients: ingredients,
-        instructions: instructions,
-        user: user,
-      },
-    };
 
-    fetch("http://localhost:8080/recipes/create", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: sessionToken,
-      },
-      body: JSON.stringify(body),
-    })
-      .then((r) => r.json())
-      .then((rObj) => {
-        console.log(rObj);
-        resetForm();
-        fetchRecipes();
-      });
+    
+    if (edits) {
+      editRecipe();
+
+    } else {
+      createRecipe();
+    }};
+
+const createRecipe = () => {
+      const body = {
+          recipes: {
+            name: name,
+            ingredients: ingredients,
+            instructions: instructions,
+            user: user,
+        }
+      };
+        fetch("http://localhost:8080/recipes/create", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: sessionToken,
+          },
+
+          body: JSON.stringify(body),
+        })
+          .then((r) => r.json())
+          .then((rObj) => {
+            console.log(rObj);
+            resetForm();
+            fetchRecipes();
+          });
   };
 
   const deleteRecipe = () => {
@@ -142,6 +154,27 @@ export default function Recipes(props) {
     });
   };
 
+  const editRecipe = () => {
+    fetch(`http://localhost:8080/recipes/update/${selection}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: sessionToken,
+      },
+      body: JSON.stringify({
+        name: name,
+        instructions: instructions,
+        ingredients: ingredients
+      }),
+    }).then(response => {
+      return response.json();
+  })
+  .then(data => {
+      console.log(data);
+      fetchRecipes();
+  })
+  }
+
   return (
     <div className={classes.root}>
       <Accordion>
@@ -150,7 +183,7 @@ export default function Recipes(props) {
           aria-controls="panel1c-content"
           id="panel1c-header"
         >
-          <h1>Add a Recipe</h1>
+          {edits ? <h1>Edit Recipe</h1> : <h1>Add a Recipe</h1>}
         </AccordionSummary>
         <AccordionDetails className={classes.details}>
           <div className={classes.column}>
@@ -190,7 +223,7 @@ export default function Recipes(props) {
         setSelection={setSelection}
         selection={selection}
       />
-      <FloatingActionButtons deleteRecipe={deleteRecipe} />
+      <FloatingActionButtons deleteRecipe={deleteRecipe} editRecipe={editRecipe} edits={edits} setEdits={setEdits}/>
     </div>
   );
 }

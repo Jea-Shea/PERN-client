@@ -19,12 +19,20 @@ const useStyles = makeStyles((theme) => ({
 
 export default function FloatingActionButtons(props) {
   const classes = useStyles();
-  const { deleteRecipe } = props;
+  const { deleteRecipe, editRecipe, setEdits, edits } = props;
 
   return (
     <div className={classes.root}>
-      <Fab color="secondary" aria-label="edit" variant="extended">
-        <EditIcon />
+      <Fab 
+      color="secondary" 
+      aria-label="edit" 
+      variant="extended"
+      onClick={() => {
+        setEdits(!edits);
+        console.log(edits);
+        editRecipe();
+        }} >
+        <EditIcon/>
         Edit Recipe
       </Fab>
       <Fab variant="extended">
