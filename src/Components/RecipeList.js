@@ -7,18 +7,11 @@ import Recipes from "./Recipe";
 
 
 const RecipeList = (props) => {
-  console.log(props)
+
 
 const {sessionToken} = props;
 
- const [recipes, setRecipes] = useState([]);
 
-
- useEffect(
-  () => {
-    fetchRecipes();
-  }, []
-)
   
 const columns = [
   { field: 'id', headerName: 'ID', width: 70 },
@@ -31,28 +24,14 @@ const columns = [
 ];
 
 
-const fetchRecipes = () => {
 
-  fetch('http://localhost:8080/recipes/', {
-      method: 'GET',
-      headers: new Headers({
-      'Content-Type': 'application/json',
-      'Authorization': sessionToken
-      }),
-      }).then(r => r.json())
-      .then(rArr =>  {
-          console.log(rArr)
-          setRecipes(rArr)})
-      .then(console.log('please work'));
-  
-  };
 
     return (
         <div>
           
           <div style={{ height: 400, width: '100%' }}>
           
-        <DataGrid rows={recipes} columns={columns} pageSize={5} checkboxSelection  />
+        <DataGrid rows={props.recipes} columns={columns} pageSize={5} checkboxSelection  />
     </div>
 
         </div>
