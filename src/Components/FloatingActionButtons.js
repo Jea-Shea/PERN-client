@@ -30,7 +30,6 @@ export default function FloatingActionButtons(props) {
       onClick={() => {
         setEdits(!edits);
         console.log(edits);
-        editRecipe();
         }} >
         <EditIcon/>
         Edit Recipe

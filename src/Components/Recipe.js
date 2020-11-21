@@ -84,6 +84,23 @@ export default function Recipes(props) {
     fetchRecipes();
   }, []);
 
+  useEffect(() => {
+    if (edits) {
+      for (let recipe of recipes) {
+        console.log(recipe);
+        if (recipe.id == selection) {
+          setName(recipe.name);
+          setIngredients(recipe.ingredients);
+          setInstructions(recipe.instructions);
+        } 
+      }
+    } else {
+      setName("");
+      setIngredients("");
+      setInstructions("");
+    }
+  }, [edits, selection])
+
   const fetchRecipes = () => {
     fetch("http://localhost:8080/recipes/", {
       method: "GET",
