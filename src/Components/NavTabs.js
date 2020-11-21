@@ -7,7 +7,6 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Fab from "@material-ui/core/Fab";
-import FloatingActionButtons from "./FloatingActionButtons";
 import ShoppingList from "./ShoppingCart";
 import Recipe from "./Recipe";
 import RecipeList from "./RecipeList";
@@ -91,7 +90,6 @@ export default function NavTabs(props) {
       </AppBar>
       <TabPanel value={value} index={0}>
         <Recipe sessionToken={sessionToken} />
-        <FloatingActionButtons />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <ShoppingList sessionToken={sessionToken} />

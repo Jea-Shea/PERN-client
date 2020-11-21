@@ -10,7 +10,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
-
+import FloatingActionButtons from "./FloatingActionButtons";
 import RecipeList from "./RecipeList";
 
 const useStyles = makeStyles((theme) => ({
@@ -57,7 +57,7 @@ export default function Recipes(props) {
   const [ingredients, setIngredients] = useState("");
   const [instructions, setInstructions] = useState("");
   const [user, setUser] = useState("");
-
+  const [selection, setSelection] = useState("");
   const resetForm = () => {
     setName("");
     setIngredients("");
@@ -76,9 +76,10 @@ export default function Recipes(props) {
     })
       .then((u) => u.json())
       .then((user) => {
-        setUser(user.id);
+        console.log("user", user);
+        setUser(user);
       });
-    console.log(user);
+    fetchRecipes();
   }, []);
 
   const fetchRecipes = () => {
@@ -94,14 +95,11 @@ export default function Recipes(props) {
         console.log(rArr);
         if (rArr.length > 0) {
           setRecipes(rArr);
+        } else {
+          setRecipes([])
         }
       })
-      .then(console.log("please work"));
   };
-
-  useEffect(() => {
-    fetchRecipes();
-  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -111,6 +109,7 @@ export default function Recipes(props) {
         name: name,
         ingredients: ingredients,
         instructions: instructions,
+        user: user,
       },
     };
 
@@ -128,6 +127,19 @@ export default function Recipes(props) {
         resetForm();
         fetchRecipes();
       });
+  };
+
+  const deleteRecipe = () => {
+    fetch(`http://localhost:8080/recipes/delete/${selection}`, {
+      method: "DELETE",
+      headers: new Headers({
+        "Content-Type": "application/json",
+        Authorization: sessionToken,
+      }),
+    }).then((r) => {
+      console.log(r);
+      fetchRecipes();
+    });
   };
 
   return (
@@ -167,13 +179,18 @@ export default function Recipes(props) {
           </Button>
           <Button size="small">Add to Shopping List</Button>
           <Button size="small" color="primary" onClick={handleSubmit}>
-            {" "}
-            Save{" "}
+            Save
           </Button>
         </AccordionActions>
       </Accordion>
 
-      <RecipeList sessionToken={props.sessionToken} recipes={recipes} />
+      <RecipeList
+        sessionToken={props.sessionToken}
+        recipes={recipes}
+        setSelection={setSelection}
+        selection={selection}
+      />
+      <FloatingActionButtons deleteRecipe={deleteRecipe} />
     </div>
   );
 }
