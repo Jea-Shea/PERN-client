@@ -22,19 +22,15 @@ export default function FloatingActionButtons(props) {
 
   return (
     <div className={classes.root}>
-      <Fab color="primary" disabled aria-label="add" variant="extended">
-        <AddIcon />
-        Add Recipe
-      </Fab>
-      <Fab color="secondary" disabled aria-label="edit" variant="extended">
+      <Fab color="secondary" disabled={props.buttonsEnable} aria-label="edit" variant="extended">
         <EditIcon />
         Edit Recipe
       </Fab>
-      <Fab variant="extended" disabled>
+      <Fab variant="extended" disabled={props.buttonsEnable} >
         <AddShoppingCartIcon className={classes.extendedIcon} />
         Add all items to shopping list
       </Fab>
-      <Fab disabled aria-label="like">
+      <Fab color="warning" disabled={props.buttonsEnable}  aria-label="like">
         <FavoriteIcon />
       </Fab>
     </div>
