@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { DataGrid } from '@material-ui/data-grid';
+import { DataGrid, XGrid } from '@material-ui/data-grid';
 import FloatingActionButtons from './FloatingActionButtons'
 
 const RecipeListt = (props) => {
@@ -23,7 +23,7 @@ const editRecipeButton = () => {
           <FloatingActionButtons sessionToken={sessionToken} buttonsEnable={buttonsEnable}/>
           <div style={{ height: 400, width: '100%' }}>
           
-          <DataGrid 
+          <XGrid 
           rows={props.recipes} 
           columns={columns} 
           pageSize={5}
