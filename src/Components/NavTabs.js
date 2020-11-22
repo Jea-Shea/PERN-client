@@ -7,7 +7,6 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Fab from "@material-ui/core/Fab";
-import FloatingActionButtons from "./FloatingActionButtons";
 import ShoppingList from "./ShoppingCart";
 import Recipe from "./Recipe";
 import RecipeList from "./RecipeList";

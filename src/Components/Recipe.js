@@ -10,6 +10,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Fab from '@material-ui/core/Fab';
 import TextField from "@material-ui/core/TextField";
 import AddIcon from '@material-ui/icons/Add';
+import EditIcon from '@material-ui/icons/Edit';
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
@@ -68,6 +69,8 @@ export default function Recipes(props) {
   const [user, setUser] = useState("");
   const [selection, setSelection] = useState("");
 
+  const [edits, setEdits] = useState(false);
+  const [recipes, setRecipes] = useState([]);
 
   const resetForm = () => {
     setName("");
@@ -75,7 +78,6 @@ export default function Recipes(props) {
     setInstructions("");
   };
 
-  const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
     fetch("http://localhost:8080/user/id", {
@@ -87,12 +89,29 @@ export default function Recipes(props) {
     })
       .then((u) => u.json())
       .then((user) => {
-      
-      console.log("user", user);
+
+        console.log("user", user);
         setUser(user);
       });
-      fetchRecipes();
+    fetchRecipes();
   }, []);
+
+  useEffect(() => {
+    if (edits) {
+      for (let recipe of recipes) {
+        console.log(recipe);
+        if (recipe.id === selection) {
+          setName(recipe.name);
+          setIngredients(recipe.ingredients);
+          setInstructions(recipe.instructions);
+        }
+      }
+    } else {
+      setName("");
+      setIngredients("");
+      setInstructions("");
+    }
+  }, [edits, selection]);
 
   const fetchRecipes = () => {
     fetch("http://localhost:8080/recipes/", {
@@ -108,31 +127,38 @@ export default function Recipes(props) {
         if (rArr.length > 0) {
           setRecipes(rArr);
         } else {
-          setRecipes([])
+          setRecipes([]);
         }
-      })
+      });
   };
-
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("youve clicked submit");
+
+    if (edits) {
+      editRecipe();
+    } else {
+      createRecipe();
+    }
+  };
+
+  const createRecipe = () => {
     const body = {
       recipes: {
         name: name,
         ingredients: ingredients,
         instructions: instructions,
-        user: user
+        user: user,
       },
     };
-
     fetch("http://localhost:8080/recipes/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: sessionToken,
       },
+
       body: JSON.stringify(body),
     })
       .then((r) => r.json())
@@ -156,7 +182,79 @@ export default function Recipes(props) {
     });
   };
 
+  const editRecipe = () => {
+    fetch(`http://localhost:8080/recipes/update/${selection}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: sessionToken,
+      },
+      body: JSON.stringify({
+        name: name,
+        instructions: instructions,
+        ingredients: ingredients,
+      }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        fetchRecipes();
+      });
+  };
 
+  const addToGroceries = () => {
+    let groceryList, newGroceries;
+    fetch("http://localhost:8080/user/groceries", {
+      method: "GET",
+      headers: new Headers({
+        "Content-Type": "application/json",
+        Authorization: sessionToken,
+      }),
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        console.log(json);
+        groceryList = json;
+        console.log(groceryList);
+      })
+      .then((groceries) => {
+        console.log("adding to groceries");
+        for (let recipe of recipes) {
+          if (recipe.id == selection) {
+            newGroceries = recipe.ingredients.split(", ");
+          }
+        }
+        console.log(newGroceries);
+        let grocerySet = [
+          ...new Set(groceryList.concat([...newGroceries])),
+        ].filter((i) => i.length > 0);
+        console.log(grocerySet);
+        let user = { groceries: grocerySet };
+        console.log(user.groceries);
+        fetch("http://localhost:8080/user/groceries/update", {
+          method: "PUT",
+          body: JSON.stringify({ user }),
+          headers: new Headers({
+            "Content-Type": "application/json",
+            Authorization: sessionToken,
+          }),
+        })
+          .then((res) => {
+            console.log(res);
+            if (res.status === 200) {
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
   return (
     <div className={classes.root}>
       <Accordion>
@@ -165,10 +263,14 @@ export default function Recipes(props) {
           aria-controls="panel1c-content"
           id="panel1c-header"
         >
-                <Fab className={classes.addRecipe} color="primary" aria-label="add" variant="extended" >
+
+          {edits ? ( <Fab className={classes.addRecipe} color="secondary" aria-label="add" variant="extended" >
+              <EditIcon />
+             Edit Recipe
+      </Fab>) : ( <Fab className={classes.addRecipe} color="primary" aria-label="add" variant="extended" >
               <AddIcon />
              Add Recipe
-      </Fab>
+      </Fab>)}
         </AccordionSummary>
         <AccordionDetails className={classes.details}>
           <div className={classes.column}>
@@ -197,8 +299,7 @@ export default function Recipes(props) {
           </Button>
           <Button size="small">Add to Shopping List</Button>
           <Button size="small" color="primary" onClick={handleSubmit}>
-            {" "}
-            Save{" "}
+    Save
           </Button>
         </AccordionActions>
       </Accordion>
@@ -208,8 +309,14 @@ export default function Recipes(props) {
         recipes={recipes}
         setSelection={setSelection}
         selection={selection}
-      />   
-      <FloatingActionButtons deleteRecipe={deleteRecipe} />
+      />
+      <FloatingActionButtons
+        deleteRecipe={deleteRecipe}
+        editRecipe={editRecipe}
+        edits={edits}
+        setEdits={setEdits}
+        addToGroceries={addToGroceries}
+      />
     </div>
   );
 }

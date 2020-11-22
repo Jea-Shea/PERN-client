@@ -18,10 +18,6 @@ const RecipeList = (props) => {
     { field: "user", headerName: "User", width: 90 },
   ];
 
-  const editRecipeButton = () => {
-    console.log("Edit");
-  };
-
   return (
     <div>
       <div style={{ height: 400, width: "100%" }}>
@@ -35,7 +31,7 @@ const RecipeList = (props) => {
               setSelection(newSelection.rowIds[0]);
             }
             setButtonsEnable(true);
-            editRecipeButton();
+
           }}
         />
       </div>
