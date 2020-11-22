@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function FloatingActionButtons(props) {
   const classes = useStyles();
-  const { deleteRecipe, editRecipe, setEdits, edits } = props;
+  const { deleteRecipe, editRecipe, setEdits, edits, addToGroceries } = props;
 
   return (
     <div className={classes.root}>
@@ -34,7 +34,7 @@ export default function FloatingActionButtons(props) {
         <EditIcon/>
         Edit Recipe
       </Fab>
-      <Fab variant="extended">
+      <Fab variant="extended" onClick={addToGroceries}>
         <AddShoppingCartIcon className={classes.extendedIcon} />
         Add all items to shopping cart
       </Fab>

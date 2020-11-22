@@ -59,14 +59,13 @@ export default function Recipes(props) {
   const [user, setUser] = useState("");
   const [selection, setSelection] = useState("");
   const [edits, setEdits] = useState(false);
+  const [recipes, setRecipes] = useState([]);
 
   const resetForm = () => {
     setName("");
     setIngredients("");
     setInstructions("");
   };
-
-  const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
     fetch("http://localhost:8080/user/id", {
@@ -88,18 +87,18 @@ export default function Recipes(props) {
     if (edits) {
       for (let recipe of recipes) {
         console.log(recipe);
-        if (recipe.id == selection) {
+        if (recipe.id === selection) {
           setName(recipe.name);
           setIngredients(recipe.ingredients);
           setInstructions(recipe.instructions);
-        } 
+        }
       }
     } else {
       setName("");
       setIngredients("");
       setInstructions("");
     }
-  }, [edits, selection])
+  }, [edits, selection]);
 
   const fetchRecipes = () => {
     fetch("http://localhost:8080/recipes/", {
@@ -115,47 +114,46 @@ export default function Recipes(props) {
         if (rArr.length > 0) {
           setRecipes(rArr);
         } else {
-          setRecipes([])
+          setRecipes([]);
         }
-      })
+      });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("youve clicked submit");
 
-    
     if (edits) {
       editRecipe();
-
     } else {
       createRecipe();
-    }};
+    }
+  };
 
-const createRecipe = () => {
-      const body = {
-          recipes: {
-            name: name,
-            ingredients: ingredients,
-            instructions: instructions,
-            user: user,
-        }
-      };
-        fetch("http://localhost:8080/recipes/create", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: sessionToken,
-          },
+  const createRecipe = () => {
+    const body = {
+      recipes: {
+        name: name,
+        ingredients: ingredients,
+        instructions: instructions,
+        user: user,
+      },
+    };
+    fetch("http://localhost:8080/recipes/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: sessionToken,
+      },
 
-          body: JSON.stringify(body),
-        })
-          .then((r) => r.json())
-          .then((rObj) => {
-            console.log(rObj);
-            resetForm();
-            fetchRecipes();
-          });
+      body: JSON.stringify(body),
+    })
+      .then((r) => r.json())
+      .then((rObj) => {
+        console.log(rObj);
+        resetForm();
+        fetchRecipes();
+      });
   };
 
   const deleteRecipe = () => {
@@ -181,16 +179,68 @@ const createRecipe = () => {
       body: JSON.stringify({
         name: name,
         instructions: instructions,
-        ingredients: ingredients
+        ingredients: ingredients,
       }),
-    }).then(response => {
-      return response.json();
-  })
-  .then(data => {
-      console.log(data);
-      fetchRecipes();
-  })
-  }
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        fetchRecipes();
+      });
+  };
+
+  const addToGroceries = () => {
+    let groceryList, newGroceries;
+    fetch("http://localhost:8080/user/groceries", {
+      method: "GET",
+      headers: new Headers({
+        "Content-Type": "application/json",
+        Authorization: sessionToken,
+      }),
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        console.log(json);
+        groceryList = json;
+        console.log(groceryList);
+      })
+      .then((groceries) => {
+        console.log("adding to groceries");
+        for (let recipe of recipes) {
+          if (recipe.id == selection) {
+            newGroceries = recipe.ingredients.split(", ");
+          }
+        }
+        console.log(newGroceries);
+        let grocerySet = [
+          ...new Set(groceryList.concat([...newGroceries])),
+        ].filter((i) => i.length > 0);
+        console.log(grocerySet);
+        let user = { groceries: grocerySet };
+        console.log(user.groceries);
+        fetch("http://localhost:8080/user/groceries/update", {
+          method: "PUT",
+          body: JSON.stringify({ user }),
+          headers: new Headers({
+            "Content-Type": "application/json",
+            Authorization: sessionToken,
+          }),
+        })
+          .then((res) => {
+            console.log(res);
+            if (res.status === 200) {
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div className={classes.root}>
@@ -240,7 +290,13 @@ const createRecipe = () => {
         setSelection={setSelection}
         selection={selection}
       />
-      <FloatingActionButtons deleteRecipe={deleteRecipe} editRecipe={editRecipe} edits={edits} setEdits={setEdits}/>
+      <FloatingActionButtons
+        deleteRecipe={deleteRecipe}
+        editRecipe={editRecipe}
+        edits={edits}
+        setEdits={setEdits}
+        addToGroceries={addToGroceries}
+      />
     </div>
   );
 }
