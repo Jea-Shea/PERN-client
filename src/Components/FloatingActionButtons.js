@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function FloatingActionButtons(props) {
   const classes = useStyles();
+
   const { deleteRecipe, editRecipe, setEdits, edits, addToGroceries } = props;
 
   return (

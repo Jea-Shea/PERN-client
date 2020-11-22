@@ -11,11 +11,11 @@ const RecipeList = (props) => {
   useEffect(() => setSelection(null), []);
 
   const columns = [
-    { field: "id", headerName: "ID", width: 70 },
+    { field: "id", headerName: "ID", width: 130 },
     { field: "name", headerName: "Recipe", width: 190 },
-    { field: "ingredients", headerName: "Ingredients", width: 130 },
-    { field: "instructions", headerName: "Instructions", width: 130 },
-    { field: "category", headerName: "Category", width: 130 },
+    { field: "ingredients", headerName: "Ingredients", width: 350 },
+    { field: "instructions", headerName: "Instructions", width: 600 },
+    { field: "user", headerName: "User", width: 90 },
   ];
 
   return (
@@ -31,6 +31,7 @@ const RecipeList = (props) => {
               setSelection(newSelection.rowIds[0]);
             }
             setButtonsEnable(true);
+
           }}
         />
       </div>

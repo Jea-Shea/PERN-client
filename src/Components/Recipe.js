@@ -7,6 +7,10 @@ import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionActions from "@material-ui/core/AccordionActions";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import Fab from '@material-ui/core/Fab';
+import TextField from "@material-ui/core/TextField";
+import AddIcon from '@material-ui/icons/Add';
+import EditIcon from '@material-ui/icons/Edit';
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
@@ -44,8 +48,14 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: "none",
     "&:hover": {
       textDecoration: "underline",
-    },
+    }
   },
+  extendedIcon: {
+    marginRight: theme.spacing(1),
+  },
+  addRecipe: {
+    marginLeft: '45%'
+  }
 }));
 
 export default function Recipes(props) {
@@ -58,6 +68,7 @@ export default function Recipes(props) {
   const [instructions, setInstructions] = useState("");
   const [user, setUser] = useState("");
   const [selection, setSelection] = useState("");
+
   const [edits, setEdits] = useState(false);
   const [recipes, setRecipes] = useState([]);
 
@@ -66,6 +77,7 @@ export default function Recipes(props) {
     setIngredients("");
     setInstructions("");
   };
+
 
   useEffect(() => {
     fetch("http://localhost:8080/user/id", {
@@ -77,6 +89,7 @@ export default function Recipes(props) {
     })
       .then((u) => u.json())
       .then((user) => {
+
         console.log("user", user);
         setUser(user);
       });
@@ -241,7 +254,7 @@ export default function Recipes(props) {
         console.log(err);
       });
   };
-
+  
   return (
     <div className={classes.root}>
       <Accordion>
@@ -250,23 +263,30 @@ export default function Recipes(props) {
           aria-controls="panel1c-content"
           id="panel1c-header"
         >
-          {edits ? <h1>Edit Recipe</h1> : <h1>Add a Recipe</h1>}
+
+          {edits ? ( <Fab className={classes.addRecipe} color="secondary" aria-label="add" variant="extended" >
+              <EditIcon />
+             Edit Recipe
+      </Fab>) : ( <Fab className={classes.addRecipe} color="primary" aria-label="add" variant="extended" >
+              <AddIcon />
+             Add Recipe
+      </Fab>)}
         </AccordionSummary>
         <AccordionDetails className={classes.details}>
           <div className={classes.column}>
             <Typography className={classes.heading}> Recipe Title </Typography>
-            <input value={name} onChange={(e) => setName(e.target.value)} />
+            <TextField value={name} onChange={(e) => setName(e.target.value)} />
           </div>
           <div className={classes.column}>
             <Typography className={classes.heading}> Ingredients </Typography>
-            <input
+            <TextField
               value={ingredients}
               onChange={(e) => setIngredients(e.target.value)}
             />
           </div>
           <div className={classes.column}>
             <Typography className={classes.heading}> Instructions </Typography>
-            <input
+            <TextField
               value={instructions}
               onChange={(e) => setInstructions(e.target.value)}
             />
@@ -279,7 +299,7 @@ export default function Recipes(props) {
           </Button>
           <Button size="small">Add to Shopping List</Button>
           <Button size="small" color="primary" onClick={handleSubmit}>
-            Save
+    Save
           </Button>
         </AccordionActions>
       </Accordion>
