@@ -54,7 +54,7 @@ export default function FloatingActionButtons(props) {
         onClick={addToGroceries}
       >
         <AddShoppingCartIcon className={classes.extendedIcon} />
-        Add all items to shopping cart
+        Add items to shopping cart
       </Fab>
       <Fab
         color="secondary"
