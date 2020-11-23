@@ -138,6 +138,7 @@ export default function Recipes(props) {
     } else {
       createRecipe();
     }
+    setEdits(false);
   };
 
   const createRecipe = () => {
@@ -307,10 +308,15 @@ export default function Recipes(props) {
         </AccordionDetails>
         <Divider />
         <AccordionActions>
-          <Button size="small" onClick={resetForm}>
+          <Button
+            size="small"
+            onClick={() => {
+              resetForm();
+              setEdits(false);
+            }}
+          >
             Cancel
           </Button>
-          <Button size="small">Add to Shopping List</Button>
           <Button size="small" color="primary" onClick={handleSubmit}>
             Save
           </Button>
@@ -329,6 +335,7 @@ export default function Recipes(props) {
         edits={edits}
         setEdits={setEdits}
         addToGroceries={addToGroceries}
+        selection={selection}
       />
     </div>
   );
