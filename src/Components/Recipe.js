@@ -16,7 +16,7 @@ import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
 import FloatingActionButtons from "./FloatingActionButtons";
 import RecipeList from "./RecipeList";
-import APIURL from '../environment'
+import APIURL from "../environment";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -202,7 +202,8 @@ export default function Recipes(props) {
   };
 
   const addToGroceries = () => {
-    let groceryList, newGroceries;
+    let groceryList,
+      newGroceries = [];
     fetch(`${APIURL}/user/groceries`, {
       method: "GET",
       headers: new Headers({
@@ -213,7 +214,9 @@ export default function Recipes(props) {
       .then((res) => res.json())
       .then((json) => {
         console.log(json);
-        groceryList = json;
+        if (json.length > 0) {
+          groceryList = json;
+        }
         console.log(groceryList);
       })
       .then((groceries) => {
