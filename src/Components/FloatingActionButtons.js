@@ -30,6 +30,7 @@ export default function FloatingActionButtons(props) {
     setEdits,
     edits,
     addToGroceries,
+    setSelection,
     selection,
   } = props;
 
@@ -62,6 +63,7 @@ export default function FloatingActionButtons(props) {
         variant="extended"
         onClick={() => {
           deleteRecipe();
+          setSelection(null);
         }}
         disabled={edits || selection == null}
       >

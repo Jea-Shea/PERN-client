@@ -335,6 +335,7 @@ export default function Recipes(props) {
         edits={edits}
         setEdits={setEdits}
         addToGroceries={addToGroceries}
+        setSelection={setSelection}
         selection={selection}
       />
     </div>
