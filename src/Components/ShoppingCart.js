@@ -8,7 +8,7 @@ import ClearIcon from "@material-ui/icons/Clear";
 import SaveIcon from "@material-ui/icons/Save";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
-import APIURL from '../environment'
+import APIURL from "../environment";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -66,6 +66,8 @@ export default function ShoppingList(props) {
   const removeEmptyAndDup = () => {
     if (groceries[0] !== "" && groceries.length > 0) {
       let grocerySet = [...new Set(groceries)].filter((i) => i.length > 0);
+    } else {
+      let grocerySet = [""];
       console.log(grocerySet);
       handleFocus(grocerySet.length < 1 ? 0 : grocerySet.length - 1);
       setGroceries(grocerySet);
@@ -218,7 +220,12 @@ export default function ShoppingList(props) {
         autoHideDuration={2000}
         onClose={() => setOpen(false)}
       >
-        <MuiAlert elevation={6} variant="filled" onClose={() => setOpen(false)} severity={severity}>
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          onClose={() => setOpen(false)}
+          severity={severity}
+        >
           {severity === "success" ? "Saved!" : "Error while saving"}
         </MuiAlert>
       </Snackbar>
