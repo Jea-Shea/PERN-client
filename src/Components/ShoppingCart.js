@@ -64,15 +64,14 @@ export default function ShoppingList(props) {
   };
 
   const removeEmptyAndDup = () => {
-    if (groceries[0] !== "" && groceries.length > 0) {
-      let grocerySet = [...new Set(groceries)].filter((i) => i.length > 0);
-    } else {
-      let grocerySet = [""];
+    let grocerySet;
+    if (groceries[0] != "" && groceries.length > 0) {
+      grocerySet = [...new Set(groceries)].filter((i) => i.length > 0);
+    } 
       console.log(grocerySet);
       handleFocus(grocerySet.length < 1 ? 0 : grocerySet.length - 1);
       setGroceries(grocerySet);
       return grocerySet;
-    }
   };
 
   const saveGroceries = (grocerySet) => {

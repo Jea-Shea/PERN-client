@@ -204,7 +204,7 @@ export default function Recipes(props) {
 
   const addToGroceries = () => {
     let groceryList,
-      newGroceries = [];
+      newGroceries = [""];
     fetch(`${APIURL}/user/groceries`, {
       method: "GET",
       headers: new Headers({
@@ -215,7 +215,7 @@ export default function Recipes(props) {
       .then((res) => res.json())
       .then((json) => {
         console.log(json);
-        if (json.length > 0) {
+        if (json) {
           groceryList = json;
         } else {
           groceryList = [""]
