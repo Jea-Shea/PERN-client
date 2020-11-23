@@ -24,39 +24,50 @@ const useStyles = makeStyles((theme) => ({
 export default function FloatingActionButtons(props) {
   const classes = useStyles();
 
-  const { deleteRecipe, editRecipe, setEdits, edits, addToGroceries, selection } = props;
+  const {
+    deleteRecipe,
+    editRecipe,
+    setEdits,
+    edits,
+    addToGroceries,
+    selection,
+  } = props;
 
   return (
     <div className={classes.root}>
-        <Fab
-          color="secondary"
-          aria-label="edit"
-          variant="extended"
-          onClick={() => {
-            setEdits(!edits);
-            console.log("selection", selection == null);
-            console.log(edits);
-          }}
-          disabled={edits || selection == null}
-        >
-          Edit Recipe
-          <EditIcon />
-        </Fab>
-        <Fab variant="extended" color="primary" onClick={addToGroceries}>
-          <AddShoppingCartIcon className={classes.extendedIcon} />
-          Add all items to shopping cart
-        </Fab>
-        <Fab
-          color="secondary"
-          aria-label="delete"
-          variant="extended"
-          onClick={() => {
-            deleteRecipe();
-          }}
-        >
-          <DeleteIcon />
-          Delete Recipe
-        </Fab>
+      <Fab
+        color="secondary"
+        aria-label="edit"
+        variant="extended"
+        onClick={() => {
+          setEdits(!edits);
+        }}
+        disabled={edits || selection == null}
+      >
+        Edit Recipe
+        <EditIcon />
+      </Fab>
+      <Fab
+        variant="extended"
+        color="primary"
+        disabled={edits || selection == null}
+        onClick={addToGroceries}
+      >
+        <AddShoppingCartIcon className={classes.extendedIcon} />
+        Add all items to shopping cart
+      </Fab>
+      <Fab
+        color="secondary"
+        aria-label="delete"
+        variant="extended"
+        onClick={() => {
+          deleteRecipe();
+        }}
+        disabled={edits || selection == null}
+      >
+        <DeleteIcon />
+        Delete Recipe
+      </Fab>
     </div>
   );
 }
