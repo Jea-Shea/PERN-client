@@ -64,7 +64,7 @@ export default function ShoppingList(props) {
   };
 
   const removeEmptyAndDup = () => {
-    let grocerySet;
+    let grocerySet = [""];
     if (groceries[0] != "" && groceries.length > 0) {
       grocerySet = [...new Set(groceries)].filter((i) => i.length > 0);
     } 
