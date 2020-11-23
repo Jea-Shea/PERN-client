@@ -4,7 +4,7 @@ import IconButton from "@material-ui/core/IconButton";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Fab from "@material-ui/core/Fab";
-import APIURL from '../environment'
+import APIURL from "../environment";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,47 +28,15 @@ export default function Account(props) {
   };
   return (
     <div>
-      <div>
-        <Fab
-        className={classes.root}
-        aria-label="clear"
-        variant="extended"
-        color="primary"
-        onClick={clearToken}>Change Name</Fab>
-      </div>
-      <div>
-        <Fab
-        className={classes.root}
-        aria-label="clear"
-        variant="extended"
-        color="primary"
-        onClick={clearToken}>Change Email</Fab>
-      </div>
-      <div>
-        <Fab
-        className={classes.root}
-        aria-label="clear"
-        variant="extended"
-        color="primary"
-        onClick={clearToken}>Change Password</Fab>
-      </div>
-      <Fab 
+      <Fab
         className={classes.root}
         aria-label="clear"
         variant="extended"
         color="secondary"
-        onClick={clearToken}>
-        LOGOUT
+        onClick={clearToken}
+      >
+        Logout
         <ExitToAppIcon />
-      </Fab>
-      <Fab 
-        className={classes.root}
-        aria-label="clear"
-        variant="extended"
-        color="secondary"
-        onClick={clearToken}>
-        Delete Account
-        <DeleteIcon />
       </Fab>
     </div>
   );
