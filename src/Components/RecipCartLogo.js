@@ -1,12 +1,12 @@
 import * as React from "react";
 
-//I converted the SVG logo to this component using this service: https://react-svgr.com/
+//I converted the SVG logo to this component using this service: react-svgr.com/
 
 function SvgRecipcartLogo(props) {
   return (
     <svg
       id="recipcart_logo_svg__Layer_1"
-      xmlns="http://www.w3.org/2000/svg"
+      xmlns="www.w3.org/2000/svg"
       x={0}
       y={0}
       viewBox="0 0 273 76"

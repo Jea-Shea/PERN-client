@@ -16,6 +16,7 @@ import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
 import FloatingActionButtons from "./FloatingActionButtons";
 import RecipeList from "./RecipeList";
+import APIURL from '../environment'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -78,7 +79,7 @@ export default function Recipes(props) {
   };
 
   useEffect(() => {
-    fetch("http://localhost:8080/user/id", {
+    fetch(`${APIURL}/user/id`, {
       method: "GET",
       headers: new Headers({
         "Content-Type": "application/json",
@@ -111,7 +112,7 @@ export default function Recipes(props) {
   }, [edits, selection]);
 
   const fetchRecipes = () => {
-    fetch("http://localhost:8080/recipes/", {
+    fetch(`${APIURL}/recipes/`, {
       method: "GET",
       headers: new Headers({
         "Content-Type": "application/json",
@@ -148,7 +149,7 @@ export default function Recipes(props) {
         user: user,
       },
     };
-    fetch("http://localhost:8080/recipes/create", {
+    fetch(`${APIURL}/recipes/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -166,7 +167,7 @@ export default function Recipes(props) {
   };
 
   const deleteRecipe = () => {
-    fetch(`http://localhost:8080/recipes/delete/${selection}`, {
+    fetch(`${APIURL}/recipes/delete/${selection}`, {
       method: "DELETE",
       headers: new Headers({
         "Content-Type": "application/json",
@@ -179,7 +180,7 @@ export default function Recipes(props) {
   };
 
   const editRecipe = () => {
-    fetch(`http://localhost:8080/recipes/update/${selection}`, {
+    fetch(`${APIURL}/recipes/update/${selection}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -202,7 +203,7 @@ export default function Recipes(props) {
 
   const addToGroceries = () => {
     let groceryList, newGroceries;
-    fetch("http://localhost:8080/user/groceries", {
+    fetch(`${APIURL}/user/groceries`, {
       method: "GET",
       headers: new Headers({
         "Content-Type": "application/json",
@@ -229,7 +230,7 @@ export default function Recipes(props) {
         console.log(grocerySet);
         let user = { groceries: grocerySet };
         console.log(user.groceries);
-        fetch("http://localhost:8080/user/groceries/update", {
+        fetch(`${APIURL}/user/groceries/update`, {
           method: "PUT",
           body: JSON.stringify({ user }),
           headers: new Headers({

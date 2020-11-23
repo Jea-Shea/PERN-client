@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import APIURL from '../environment'
 
 const RecipeCreate = (props) => {
 
@@ -23,7 +24,7 @@ const RecipeCreate = (props) => {
             instructions: instructions,
         }
     }
-        fetch('http://localhost:8080/recipes/create', {
+        fetch(`${APIURL}/recipes/create`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

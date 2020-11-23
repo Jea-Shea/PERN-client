@@ -3,6 +3,7 @@ import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import ForwardIcon from "@material-ui/icons/Forward";
+import APIURL from '../environment'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,7 +22,8 @@ const Login = (props) => {
   let handleSubmit = (event) => {
     event.preventDefault();
     if (!emailError && email && password) {
-      fetch("http://localhost:8080/user/login", {
+      console.log(APIURL);
+      fetch(`${APIURL}/user/login`, {
         method: "POST",
         body: JSON.stringify({
           user: { email: email, passwordHash: password },

@@ -3,6 +3,7 @@ import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
+import APIURL from '../environment'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,8 +48,9 @@ const Signup = (props) => {
       email &&
       password
     ) {
+      console.log(APIURL);
       event.preventDefault();
-      fetch("http://localhost:8080/user/signup", {
+      fetch(`${APIURL}/user/signup`, {
         method: "POST",
         body: JSON.stringify({
           user: { name: name, email: email, passwordHash: password },

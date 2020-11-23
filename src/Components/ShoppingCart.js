@@ -8,6 +8,7 @@ import ClearIcon from "@material-ui/icons/Clear";
 import SaveIcon from "@material-ui/icons/Save";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
+import APIURL from '../environment'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,7 +28,7 @@ export default function ShoppingList(props) {
   const inputRef = useRef({});
 
   useEffect(() => {
-    fetch("http://localhost:8080/user/groceries", {
+    fetch(`${APIURL}/user/groceries`, {
       method: "GET",
       headers: new Headers({
         "Content-Type": "application/json",
@@ -75,7 +76,7 @@ export default function ShoppingList(props) {
   const saveGroceries = (grocerySet) => {
     let user = { groceries: grocerySet };
     console.log(user.groceries);
-    fetch("http://localhost:8080/user/groceries/update", {
+    fetch(`${APIURL}/user/groceries/update`, {
       method: "PUT",
       body: JSON.stringify({ user }),
       headers: new Headers({

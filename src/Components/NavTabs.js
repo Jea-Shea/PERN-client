@@ -11,6 +11,7 @@ import ShoppingList from "./ShoppingCart";
 import Recipe from "./Recipe";
 import RecipeList from "./RecipeList";
 import Account from "./Account";
+import APIURL from '../environment'
 
 //Nav Tabs functionality
 function TabPanel(props) {

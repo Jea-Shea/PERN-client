@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import APIURL from '../environment'
 
 
 const RecipeDelete = (props) => {
@@ -11,7 +12,7 @@ const [clear, setClear] = useState('')
         console.log(props.recipes);
 
     }
-        fetch('http://localhost:8080/recipes/delete/:id', {
+        fetch(`${APIURL}/recipes/delete/:id`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

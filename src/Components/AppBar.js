@@ -11,6 +11,7 @@ import Menu from '@material-ui/core/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import RecipCartLogo from './RecipCartLogo';
+import APIURL from '../environment'
 
 const useStyles = makeStyles((theme) => ({
   grow: {
