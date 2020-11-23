@@ -217,6 +217,8 @@ export default function Recipes(props) {
         console.log(json);
         if (json.length > 0) {
           groceryList = json;
+        } else {
+          groceryList = [""]
         }
         console.log(groceryList);
       })
